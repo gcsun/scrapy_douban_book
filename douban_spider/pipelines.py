@@ -13,11 +13,13 @@ class JsonWriterPipeline(object):
 
     def __init__(self):
         self.file = codecs.open('utf8_out.json', 'wb', encoding='utf-8')
+        self.file.write("[\n")
 
     def process_item(self, item, spider):
-        line = json.dumps(dict(item), ensure_ascii=False) + "\n"
+        line = json.dumps(dict(item), ensure_ascii=False) + ",\n"
         self.file.write(line)
         return item
 
     def close_spider(self, spider):
+        self.file.write("]")
         self.file.close()
